@@ -4,11 +4,7 @@ context("local test", () => {
     cy.get('[name="q"]').type("subscribe").type("{enter}");
   });
 });
-describe('The Home Page', () => {
-  it('successfully loads', () => {
-    cy.visit('/')
-  })
-})
+
 context('Next.js test', () => {
   it('should access localhost', () => {
     cy.visit('http://localhost:3000');
