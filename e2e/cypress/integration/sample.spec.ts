@@ -1,10 +1,3 @@
-context("local test", () => {
-  it("should perform basic google search", () => {
-    cy.visit("https://google.com");
-    cy.get('[name="q"]').type("subscribe").type("{enter}");
-  });
-});
-
 context('Next.js test', () => {
   it('should access localhost', () => {
     cy.visit('http://localhost:3000');
