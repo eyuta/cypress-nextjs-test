@@ -10,6 +10,7 @@ jobs:
       - name: Start App
         run: |
           yarn
+          yarn build
           yarn start &
 
       - uses: cypress-io/github-action@v2
