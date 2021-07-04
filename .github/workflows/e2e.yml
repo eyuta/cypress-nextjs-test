@@ -1,23 +1,40 @@
+# 任意のワークフロー名
 name: End-to-end tests
+# トリガーするイベントを設定。この場合はpush
+# 参考: https://docs.github.com/ja/actions/reference/events-that-trigger-workflows#example-workflow-configuration
 on: [push]
 jobs:
+  # 任意のジョブ名を指定
   cypress-run:
+    # 使用するランナーを指定。
+    # Cypress公式が20.04を指定しているので合わせているが、どのバージョンでも問題ないはず
     runs-on: ubuntu-20.04
     steps:
+      # リポジトリをチェックアウトし、ワークフローがリポジトリにアクセスできるようにする
+      # 参考: https://github.com/actions/checkout
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Next.jsアプリを起動
       - name: Start App
         run: |
           yarn
           yarn build
           yarn start &
 
+      # cypress-io/github-action@v2 を使用してCypressを実行
       - uses: cypress-io/github-action@v2
         with:
-          wait-on: 'http://localhost:3000'
+          # Next.js (http://localhost:3000) の起動を待つ
+          wait-on: "http://localhost:3000"
+          # Cypress を ./e2e/ に配置しているため、working-directoryを指定する
+          # デフォルトはルートディレクトリ
+          # 参考: https://github.com/cypress-io/github-action#working-directory
           working-directory: e2e
 
+      # 任意
+      # Cypress実行時に生成されたビデオとスクリーンショットを保存できる
+      # 参考: https://github.com/cypress-io/github-action#artifacts
       - uses: actions/upload-artifact@v2
         if: always()
         with:
